@@ -9,46 +9,48 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Documents
-            </th>
-            <th>
-                Edit, Delete, Details
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model.Categories)
-        {
-            <h1>@Html.DisplayFor(modelItem => category.Name)</h1>
+@foreach (var category in Model.Categories)
+{
+    <div class="well" style="margin-bottom: 70px">
+        <h1 style="margin-bottom: 50px">@Html.DisplayFor(modelItem => category.Name)</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="30%">
+                        Topic
+                    </th>
+                    <th width="50%">
+                        Documents / Links
+                    </th>
+                    <th width="20%">
+                        Edit, Delete, Details
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var topic in category.Topics)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Name)
+                    </td>
 
-            @foreach (var topic in category.Topics)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => topic.Name)
-                </td>
-
-                <td>
-                     @foreach (var document in topic.Documents)
-                    {
+                    <td>
+                        @foreach (var document in topic.Documents)
+                        {
                         <p>@document.Name</p>
-                    }
-                </td>
+                        }
+                    </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@topic.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
-                </td>
-            </tr>
-            }
-        }
-    </tbody>
-</table>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@topic.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
