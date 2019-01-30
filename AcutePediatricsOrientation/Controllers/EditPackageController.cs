@@ -43,14 +43,37 @@ namespace AcutePediatricsOrientation.Controllers
         [HttpPost]
         public IActionResult CreateCategory(string name)
         {
-            if (ModelState.IsValid)
+            if (_context.Category.Any(c => c.Name == name))
+            {
+                return View();
+            }
+            else
             {
                 _context.Category.Add(new Category { Name = name });
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            if(_context.Category.Any(c => c.Id == id))
             {
+                var topicIds = _context.Topic.Where(t => t.CategoryId == id).Select(t => t.Id);
+
+                foreach(var topicId in topicIds)
+                {
+                    _context.Document.RemoveRange(_context.Document.Where(d => d.TopicId == topicId));
+                }
+
+                _context.Topic.RemoveRange(_context.Topic.Where(t => t.CategoryId == id));
+                _context.Category.RemoveRange(_context.Category.Where(t => t.Id == id));
+
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {   // TODO HERE
                 return View();
             }
         }

@@ -17,7 +17,7 @@
         <a asp-action="CreateCategory">Create New Topic</a>
     </p>
     <p>
-        <a asp-action="DeleteCategory">Delete</a>
+        <a asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
     </p>
 
     <table class="table">
