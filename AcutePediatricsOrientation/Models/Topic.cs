@@ -11,7 +11,7 @@ namespace AcutePediatricsOrientation.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
         public virtual ICollection<Documents> Documents { get; set; }
 
         public virtual Category Category { get; set; }

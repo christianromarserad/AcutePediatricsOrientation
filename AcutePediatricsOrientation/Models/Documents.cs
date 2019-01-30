@@ -13,7 +13,7 @@ namespace AcutePediatricsOrientation.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string FilePath { get; set; }
-        public string TopicId { get; set; }
+        public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }
 
     }
