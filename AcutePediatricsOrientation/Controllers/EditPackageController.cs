@@ -33,5 +33,26 @@ namespace AcutePediatricsOrientation.Controllers
             });
             return View(new EditPackageViewModel { Categories = categories.ToList()});
         }
+
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCategory(string name)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Category.Add(new Category { Name = name });
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }
