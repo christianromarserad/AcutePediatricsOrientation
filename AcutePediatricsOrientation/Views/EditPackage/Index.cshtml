@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcutePediatricsOrientation.Models.Category>
+﻿@model AcutePediatricsOrientation.ViewModels.EditPackageViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -13,23 +13,42 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
-            <th></th>
+            <th>
+                Documents
+            </th>
+            <th>
+                Edit, Delete, Details
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var category in Model.Categories)
+        {
+            <h1>@Html.DisplayFor(modelItem => category.Name)</h1>
+
+            @foreach (var topic in category.Topics)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Name)
+                </td>
+
+                <td>
+                     @foreach (var document in topic.Documents)
+                    {
+                        <p>@document.Name</p>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@topic.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        }
     </tbody>
 </table>

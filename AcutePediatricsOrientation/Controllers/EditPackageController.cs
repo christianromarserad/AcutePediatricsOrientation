@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AcutePediatricsOrientation.Models;
+using AcutePediatricsOrientation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AcutePediatricsOrientation.Controllers
 {
@@ -18,7 +20,18 @@ namespace AcutePediatricsOrientation.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var categories = _context.Category.Select(c => new EditPackageViewModelCategory {
+                Id = c.Id,
+                Name = c.Name,
+                Topics = c.Topics.Select(t => new EditPackageViewModelTopic {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Documents = t.Documents.Select(d => new EditPackageViewModelDocuments {
+                        Name = d.Name
+                    }).ToList()
+                }).ToList()
+            });
+            return View(new EditPackageViewModel { Categories = categories.ToList()});
         }
     }
 }
