@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Document]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT NOT NULL IDENTITY PRIMARY KEY, 
     [Name] NCHAR(50) NOT NULL, 
     [Type] NCHAR(50) NOT NULL, 
     [FilePath] NCHAR(50) NOT NULL, 
