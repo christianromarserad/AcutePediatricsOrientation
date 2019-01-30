@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AcutePediatricsOrientation.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        [Authorize]
         public IActionResult Index()
         {
             return View();
