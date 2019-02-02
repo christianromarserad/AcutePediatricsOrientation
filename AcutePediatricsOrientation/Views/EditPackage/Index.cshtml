@@ -11,52 +11,55 @@
 </p>
 @foreach (var category in Model.Categories)
 {
-<div class="well" style="margin-bottom: 70px">
-    <h1 style="margin-bottom: 50px">@Html.DisplayFor(modelItem => category.Name)</h1>
-    <p>
-        <a asp-action="CreateCategory">Create New Topic</a>
-    </p>
-    <p>
-        <a asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
-    </p>
+<div class="panel panel-primary">
+    <div class="panel-heading">@Html.DisplayFor(modelItem => category.Name)</div>
+    <div class="panel-body">
+        <p style="margin-bottom: 20px">
+            <a asp-action="CreateCategory">Create New Topic</a> |
+            <a asp-action="DeleteCategory" asp-route-id="@category.Id">Delete Category</a> |
+            <a asp-action="DeleteCategory" asp-route-id="@category.Id">Edit Category</a>
+        </p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th width="30%">
-                    Topic
-                </th>
-                <th width="50%">
-                    Documents / Links
-                </th>
-                <th width="20%">
-                    Edit, Delete, Details
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var topic in category.Topics)
-            {
+        <table class="table">
+            <thead class="thead-dark">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Name)
-                    </td>
-
-                    <td>
-                        @foreach (var document in topic.Documents)
-                        {
-                            <p>@document.Name</p>
-                        }
-                    </td>
-
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@topic.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
-                    </td>
+                    <th width="50%">
+                        Topic
+                    </th>
+                    <th width="50%">
+                        Documents / Links
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var topic in category.Topics)
+                {
+                    <tr>
+                        <td>
+                            <p>
+                                <span style="display: inline-block; width: 400px;">@Html.DisplayFor(modelItem => topic.Name)</span>
+                                <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
+                                <span>|</span>
+                                <a asp - action="Delete" asp-route-id="@topic.Id"> Delete </a>
+                            </p>
+                        </td>
+
+                        <td>
+                            <p style="text-align:center"><a asp-action="Edit" asp-route-id="@topic.Id">Add Document</a></p>
+                            @foreach (var document in topic.Documents)
+                            {
+                                <p>
+                                    <span style="display: inline-block; width: 400px;">@document.Name</span>
+                                    <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
+                                    <span>|</span>
+                                    <a asp - action="Delete" asp-route-id="@topic.Id"> Delete </a>
+                                </p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 }
