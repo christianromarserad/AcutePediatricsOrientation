@@ -132,5 +132,37 @@ namespace AcutePediatricsOrientation.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpGet]
+        public IActionResult DeleteTopic(int id)
+        {
+            var topic = _context.Topic.Include(t => t.Category).SingleOrDefault(t => t.Id == id);
+            if (topic == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                return View(topic);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTopic(Topic topic)
+        {
+            var topicToBeRemoved = _context.Topic.Include(t => t.Category).SingleOrDefault(t => t.Id == topic.Id);
+            if (topicToBeRemoved == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                _context.Topic.Remove(topicToBeRemoved);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
