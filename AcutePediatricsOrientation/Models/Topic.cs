@@ -10,6 +10,7 @@ namespace AcutePediatricsOrientation.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public int CategoryId { get; set; }
         public virtual ICollection<Documents> Documents { get; set; }

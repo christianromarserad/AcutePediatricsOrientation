@@ -81,9 +81,56 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateTopic()
+        public IActionResult CreateTopic(int id)
         {
-            return View();
+            return View(new Topic { CategoryId = id});
+        }
+
+        [HttpPost]
+        public IActionResult CreateTopic(Topic topic)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Topic.Add(new Topic { CategoryId = topic.CategoryId, Name = topic.Name});
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditTopic(int id)
+        {
+            var topic = _context.Topic.SingleOrDefault(t => t.Id == id);
+            if (topic == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                return View(topic);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EditTopic(Topic topic)
+        {
+            var oldTopic = _context.Topic.SingleOrDefault(t => t.Id == topic.Id);
+            if (oldTopic == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                oldTopic.Name = topic.Name;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

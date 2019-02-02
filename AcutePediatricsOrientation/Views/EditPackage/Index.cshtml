@@ -15,7 +15,7 @@
     <div class="panel-heading">@Html.DisplayFor(modelItem => category.Name)</div>
     <div class="panel-body">
         <p style="margin-bottom: 20px">
-            <a asp-action="CreateCategory">Create New Topic</a> |
+            <a asp-action="CreateTopic" asp-route-id="@category.Id">Create New Topic</a> |
             <a asp-action="DeleteCategory" asp-route-id="@category.Id">Delete Category</a> |
             <a asp-action="DeleteCategory" asp-route-id="@category.Id">Edit Category</a>
         </p>
@@ -38,7 +38,7 @@
                         <td>
                             <p>
                                 <span style="display: inline-block; width: 400px;">@Html.DisplayFor(modelItem => topic.Name)</span>
-                                <a asp-action="Edit" asp-route-id="@topic.Id">Edit</a>
+                                <a asp-action="EditTopic" asp-route-id="@topic.Id">Edit</a>
                                 <span>|</span>
                                 <a asp - action="Delete" asp-route-id="@topic.Id"> Delete </a>
                             </p>
