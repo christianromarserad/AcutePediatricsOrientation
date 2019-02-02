@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AcutePediatricsOrientation.Models;
 using AcutePediatricsOrientation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcutePediatricsOrientation.Controllers
 {
+    [Authorize]
     public class EditPackageController : Controller
     {
         private readonly AcutePediatricsContext _context;
@@ -76,6 +78,12 @@ namespace AcutePediatricsOrientation.Controllers
             {   // TODO HERE
                 return View();
             }
+        }
+
+        [HttpGet]
+        public IActionResult CreateTopic()
+        {
+            return View();
         }
     }
 }
