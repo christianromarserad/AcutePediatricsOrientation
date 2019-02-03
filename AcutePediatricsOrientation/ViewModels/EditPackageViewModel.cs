@@ -9,26 +9,26 @@ namespace AcutePediatricsOrientation.ViewModels
 {
     public class EditPackageViewModel
     {
-        public List<EditPackageViewModelCategory> Categories { get; set; }
+        public List<CategoryViewModel> Categories { get; set; }
     }
 
-    public class EditPackageViewModelCategory
+    public class CategoryViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<EditPackageViewModelTopic> Topics { get; set; }
+        public IEnumerable<TopicViewModel> Topics { get; set; }
     }
 
-    public class EditPackageViewModelTopic
+    public class TopicViewModel
     {
         [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public IEnumerable<EditPackageViewModelDocuments> Documents { get; set; }
+        public IEnumerable<DocumentsViewModel> Documents { get; set; }
     }
 
-    public class EditPackageViewModelDocuments
+    public class DocumentsViewModel
     {
         public string Name { get; set; }
     }

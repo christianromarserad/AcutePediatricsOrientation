@@ -22,13 +22,13 @@ namespace AcutePediatricsOrientation.Controllers
 
         public IActionResult Index()
         {
-            var categories = _context.Category.Select(c => new EditPackageViewModelCategory {
+            var categories = _context.Category.Select(c => new CategoryViewModel {
                 Id = c.Id,
                 Name = c.Name,
-                Topics = c.Topics.Select(t => new EditPackageViewModelTopic {
+                Topics = c.Topics.Select(t => new TopicViewModel {
                     Id = t.Id,
                     Name = t.Name,
-                    Documents = t.Documents.Select(d => new EditPackageViewModelDocuments {
+                    Documents = t.Documents.Select(d => new DocumentsViewModel {
                         Name = d.Name
                     })
                 })
@@ -43,15 +43,15 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(string name)
+        public IActionResult CreateCategory(Category category)
         {
-            if (_context.Category.Any(c => c.Name == name))
+            if (_context.Category.Any(c => c.Name == category.Name))
             {
                 return View();
             }
             else
             {
-                _context.Category.Add(new Category { Name = name });
+                _context.Category.Add(new Category { Name = category.Name });
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
