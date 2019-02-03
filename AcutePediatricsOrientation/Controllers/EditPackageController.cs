@@ -30,8 +30,8 @@ namespace AcutePediatricsOrientation.Controllers
                     Name = t.Name,
                     Documents = t.Documents.Select(d => new EditPackageViewModelDocuments {
                         Name = d.Name
-                    }).ToList()
-                }).ToList()
+                    })
+                })
             });
             return View(new EditPackageViewModel { Categories = categories.ToList()});
         }
