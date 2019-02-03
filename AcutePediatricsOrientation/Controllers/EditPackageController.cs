@@ -43,6 +43,7 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateCategory(Category category)
         {
             if (_context.Category.Any(c => c.Name == category.Name))
@@ -73,6 +74,7 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteCategory(Category category)
         {
             if(_context.Category.Any(c => c.Id == category.Id))
@@ -103,6 +105,7 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateTopic(Topic topic)
         {
             if (ModelState.IsValid)
@@ -133,6 +136,7 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditTopic(Topic topic)
         {
             var oldTopic = _context.Topic.SingleOrDefault(t => t.Id == topic.Id);
@@ -165,6 +169,7 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteTopic(Topic topic)
         {
             var topicToBeRemoved = _context.Topic.Include(t => t.Category).SingleOrDefault(t => t.Id == topic.Id);
