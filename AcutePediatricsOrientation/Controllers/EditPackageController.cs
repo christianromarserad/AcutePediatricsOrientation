@@ -57,26 +57,42 @@ namespace AcutePediatricsOrientation.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult DeleteCategory(int id)
         {
-            if(_context.Category.Any(c => c.Id == id))
+            var category = _context.Category.SingleOrDefault(t => t.Id == id);
+            if (category == null)
             {
-                var topicIds = _context.Topic.Where(t => t.CategoryId == id).Select(t => t.Id);
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                return View(category);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(Category category)
+        {
+            if(_context.Category.Any(c => c.Id == category.Id))
+            {
+                var topicIds = _context.Topic.Where(t => t.CategoryId == category.Id).Select(t => t.Id);
 
                 foreach(var topicId in topicIds)
                 {
                     _context.Document.RemoveRange(_context.Document.Where(d => d.TopicId == topicId));
                 }
 
-                _context.Topic.RemoveRange(_context.Topic.Where(t => t.CategoryId == id));
-                _context.Category.RemoveRange(_context.Category.Where(t => t.Id == id));
+                _context.Topic.RemoveRange(_context.Topic.Where(t => t.CategoryId == category.Id));
+                _context.Category.RemoveRange(_context.Category.Where(t => t.Id == category.Id));
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
             {   // TODO HERE
-                return View();
+                return View("Error");
             }
         }
 
