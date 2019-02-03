@@ -45,7 +45,7 @@
                         </td>
 
                         <td>
-                            <p style="text-align:center"><a asp-action="Edit" asp-route-id="@topic.Id">Add Document</a></p>
+                            <p style="text-align:center"><a asp-action="CreateDocument" asp-route-id="@topic.Id">Add Document</a></p>
                             @foreach (var document in topic.Documents)
                             {
                                 <p>

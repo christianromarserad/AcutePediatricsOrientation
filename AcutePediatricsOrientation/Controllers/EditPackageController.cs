@@ -185,5 +185,27 @@ namespace AcutePediatricsOrientation.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpGet]
+        public IActionResult CreateDocument(int id)
+        {
+            return View(new Documents { TopicId = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateDocument(Documents document)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Document.Add(new Documents { Name = document.Name, TopicId = document.TopicId, Type = document.Type, FilePath = document.FilePath });
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }
