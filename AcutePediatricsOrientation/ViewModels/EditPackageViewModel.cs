@@ -1,4 +1,5 @@
 ﻿using AcutePediatricsOrientation.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,5 +32,21 @@ namespace AcutePediatricsOrientation.ViewModels
     public class DocumentsViewModel
     {
         public string Name { get; set; }
+    }
+
+    public class CreateDocumentViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Type { get; set; }
+        [Required]
+        public int TopicId { get; set; }
+        [Required]
+        public string Url { get; set; }
+        [Required]
+        public IFormFile File { get; set; }
     }
 }
