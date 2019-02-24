@@ -99,6 +99,39 @@ namespace AcutePediatricsOrientation.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            var category = _context.Category.SingleOrDefault(t => t.Id == id);
+            if (category == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                return View(category);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCategory(Category category)
+        {
+            var oldCategory = _context.Category.SingleOrDefault(t => t.Id == category.Id);
+            if (oldCategory == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                oldCategory.Name = category.Name;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
         public IActionResult CreateTopic(int id)
         {
             return View(new Topic { CategoryId = id});
