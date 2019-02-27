@@ -17,5 +17,6 @@ namespace AcutePediatricsOrientation.Models
         public DbSet<AcutePediatricsOrientation.Models.Category> Category { get; set; }
         public DbSet<AcutePediatricsOrientation.Models.Topic> Topic { get; set; }
         public DbSet<AcutePediatricsOrientation.Models.Documents> Document { get; set; }
+        public DbSet<AcutePediatricsOrientation.Models.DocumentType> DocumentType { get; set; }
     }
 }
