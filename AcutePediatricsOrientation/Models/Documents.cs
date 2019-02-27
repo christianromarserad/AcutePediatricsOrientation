@@ -13,7 +13,7 @@ namespace AcutePediatricsOrientation.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Type { get; set; }
+        public int DocumentType { get; set; }
         [Required]
         public string FilePath { get; set; }
         [Required]
