@@ -9,6 +9,7 @@ using AcutePediatricsOrientation.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using AcutePediatricsOrientation.Enums;
 
 namespace AcutePediatricsOrientation.Controllers
 {
@@ -44,7 +45,7 @@ namespace AcutePediatricsOrientation.Controllers
                     // Create the identity from the user info
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
                     identity.AddClaim(new Claim(ClaimTypes.Name, account.Username));
-                    if(user.Role == "ADMIN")
+                    if(user.RoleId == (int) ProjectEnum.Role.Educator)
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
                     }
