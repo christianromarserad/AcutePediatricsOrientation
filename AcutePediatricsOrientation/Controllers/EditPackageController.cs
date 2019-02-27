@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AcutePediatricsOrientation.Enums;
 using AcutePediatricsOrientation.Models;
 using AcutePediatricsOrientation.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcutePediatricsOrientation.Controllers
@@ -14,10 +18,12 @@ namespace AcutePediatricsOrientation.Controllers
     public class EditPackageController : Controller
     {
         private readonly AcutePediatricsContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public EditPackageController(AcutePediatricsContext context)
+        public EditPackageController(AcutePediatricsContext context, IHostingEnvironment environment)
         {
             _context = context;
+            _hostingEnvironment = environment;
         }
 
         public IActionResult Index()
@@ -222,23 +228,77 @@ namespace AcutePediatricsOrientation.Controllers
         [HttpGet]
         public IActionResult CreateDocument(int id)
         {
-            return View(new Documents { TopicId = id });
+            var createDocumentViewModel = new CreateDocumentViewModel {
+                TopicId = id,
+                DocumentTypes = _context.DocumentType.Select(dt => new SelectListItem {
+                    Text = dt.Name,
+                    Value = dt.Id.ToString()
+                })
+            };
+
+            return View(createDocumentViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateDocument(Documents document)
+        public IActionResult CreateDocument(CreateDocumentViewModel document)
         {
+            if(document.DocumentType == (int) ProjectEnum.DocumentType.PDF)
+            {
+                ModelState.Remove("Url");
+            }
+            else if(document.DocumentType == (int) ProjectEnum.DocumentType.Video)
+            {
+                ModelState.Remove("File");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Document.Add(new Documents { Name = document.Name, TopicId = document.TopicId, Type = document.Type, FilePath = document.FilePath });
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                if(document.DocumentType == (int)ProjectEnum.DocumentType.PDF)
+                {
+                    var fileName = document.File.FileName;
+                    var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
+                    var filePath = Path.Combine(trainingFilesFolderPath, fileName);
+
+                    if(!_context.Document.Any(d => d.FilePath == filePath))
+                    {
+                        document.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                        _context.Document.Add(new Documents {
+                            DocumentTypeId = document.DocumentType,
+                            FilePath = filePath,
+                            Name = document.Name,
+                            TopicId = document.TopicId
+                        });
+
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("File", "That file is already used in the package");
+                    }
+                }
+                else if (document.DocumentType == (int)ProjectEnum.DocumentType.Video)
+                {
+                    _context.Document.Add(new Documents
+                    {
+                        DocumentTypeId = document.DocumentType,
+                        FilePath = document.Url,
+                        Name = document.Name,
+                        TopicId = document.TopicId
+                    });
+
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            else
+
+            document.DocumentTypes = _context.DocumentType.Select(dt => new SelectListItem
             {
-                return View();
-            }
+                Text = dt.Name,
+                Value = dt.Id.ToString()
+            });
+            return View(document);
         }
     }
 }
