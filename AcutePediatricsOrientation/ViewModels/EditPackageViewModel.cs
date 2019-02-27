@@ -1,5 +1,6 @@
 ﻿using AcutePediatricsOrientation.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,9 +42,11 @@ namespace AcutePediatricsOrientation.ViewModels
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Type { get; set; }
+        public int DocumentType { get; set; }
+        public IEnumerable<SelectListItem> DocumentTypes { get; set; }
         [Required]
         public int TopicId { get; set; }
+        [Url]
         [Required]
         public string Url { get; set; }
         [Required]
