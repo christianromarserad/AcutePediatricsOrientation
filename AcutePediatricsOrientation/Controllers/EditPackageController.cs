@@ -35,6 +35,7 @@ namespace AcutePediatricsOrientation.Controllers
                     Id = t.Id,
                     Name = t.Name,
                     Documents = t.Documents.Select(d => new DocumentsViewModel {
+                        Id = d.Id,
                         Name = d.Name
                     })
                 })
@@ -259,13 +260,12 @@ namespace AcutePediatricsOrientation.Controllers
                     var fileName = document.File.FileName;
                     var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
                     var filePath = Path.Combine(trainingFilesFolderPath, fileName);
-
-                    if(!_context.Document.Any(d => d.FilePath == filePath))
+                    if (!_context.Document.Any(d => d.FilePath == filePath))
                     {
                         document.File.CopyTo(new FileStream(filePath, FileMode.Create));
                         _context.Document.Add(new Documents {
                             DocumentTypeId = document.DocumentType,
-                            FilePath = filePath,
+                            FilePath = Path.Combine("/trainingfiles/", fileName),
                             Name = document.Name,
                             TopicId = document.TopicId
                         });
