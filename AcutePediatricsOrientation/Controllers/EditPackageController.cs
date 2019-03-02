@@ -262,7 +262,10 @@ namespace AcutePediatricsOrientation.Controllers
                     var filePath = Path.Combine(trainingFilesFolderPath, fileName);
                     if (!_context.Document.Any(d => d.FilePath == filePath))
                     {
-                        document.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            document.File.CopyTo(fileStream);
+                        } 
                         _context.Document.Add(new Documents {
                             DocumentTypeId = document.DocumentType,
                             FilePath = Path.Combine("/trainingfiles/", fileName),
@@ -299,6 +302,41 @@ namespace AcutePediatricsOrientation.Controllers
                 Value = dt.Id.ToString()
             });
             return View(document);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteDocument(int id)
+        {
+            var document = _context.Document.Include(d => d.DocumentType).SingleOrDefault(d => d.Id == id);
+            if (document == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                return View(document);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteDocument(Documents document)
+        {
+            var documentToBeRemoved = _context.Document.SingleOrDefault(d => d.Id == document.Id);
+            if (documentToBeRemoved == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.FilePath;
+                System.IO.File.Delete(filePath);
+                _context.Document.Remove(documentToBeRemoved);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

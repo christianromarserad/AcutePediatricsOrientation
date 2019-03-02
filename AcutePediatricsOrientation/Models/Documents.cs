@@ -14,6 +14,7 @@ namespace AcutePediatricsOrientation.Models
         public string Name { get; set; }
         [Required]
         public int DocumentTypeId { get; set; }
+        public virtual DocumentType DocumentType { get; set; }
         [Required]
         public string FilePath { get; set; }
         [Required]
