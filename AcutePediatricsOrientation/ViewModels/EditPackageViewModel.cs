@@ -53,5 +53,24 @@ namespace AcutePediatricsOrientation.ViewModels
         public string Url { get; set; }
         [Required]
         public IFormFile File { get; set; }
+        public string FilePath { get; set; }
+    }
+
+    public class EditDocumentViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public int DocumentType { get; set; }
+        public IEnumerable<SelectListItem> DocumentTypes { get; set; }
+        [Required]
+        public int TopicId { get; set; }
+        [Url]
+        [Required]
+        public string Url { get; set; }
+        public IFormFile File { get; set; }
+        public string FilePath { get; set; }
     }
 }
