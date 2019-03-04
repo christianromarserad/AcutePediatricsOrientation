@@ -16,7 +16,7 @@ namespace AcutePediatricsOrientation.Models
         public int DocumentTypeId { get; set; }
         public virtual DocumentType DocumentType { get; set; }
         [Required]
-        public string FilePath { get; set; }
+        public string Path { get; set; }
         [Required]
         public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }

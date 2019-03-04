@@ -42,4 +42,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DocumentTypeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1518220a-2ac6-44da-9ece-4d3fd6cbf869" ChangeDateTime="03/03/2019 18:18:46">
+    <Property Name="ElementName" Value="[dbo].[Document].[FilePath]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Document]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FPath" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cdfe71e9-dcb9-48fa-86a7-b416b6013e46" ChangeDateTime="03/03/2019 18:18:52">
+    <Property Name="ElementName" Value="[dbo].[Document].[FPath]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Document]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Path" />
+  </Operation>
 </Operations>

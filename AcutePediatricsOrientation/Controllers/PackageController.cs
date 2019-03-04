@@ -24,7 +24,7 @@ namespace AcutePediatricsOrientation.Controllers
             {
                 var documentViewModel = new DocumentsViewModel {
                     Name = document.Name,
-                    Path = document.FilePath
+                    Path = document.Path
                 };
                 return View(documentViewModel);
             }
