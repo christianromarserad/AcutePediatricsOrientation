@@ -212,7 +212,7 @@ namespace AcutePediatricsOrientation.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteTopic(Topic topic)
         {
-            var topicToBeRemoved = _context.Topic.Include(t => t.Category).SingleOrDefault(t => t.Id == topic.Id);
+            var topicToBeRemoved = _context.Topic.Include(t => t.Documents).SingleOrDefault(t => t.Id == topic.Id);
             if (topicToBeRemoved == null)
             {
                 // TODO 
@@ -220,6 +220,15 @@ namespace AcutePediatricsOrientation.Controllers
             }
             else
             {
+                foreach (var document in topicToBeRemoved.Documents)
+                {
+                    // Delete files for pdf documents
+                    DeleteDocumentFile(document);
+                }
+                
+                // Deleting the documents from this topic
+                _context.Document.RemoveRange(topicToBeRemoved.Documents);
+
                 _context.Topic.Remove(topicToBeRemoved);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -336,8 +345,7 @@ namespace AcutePediatricsOrientation.Controllers
                 if(documentToBeRemoved.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
                 {
                     // Deleting the file if the document type is pdf
-                    var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.Path;
-                    System.IO.File.Delete(filePath);
+                    DeleteDocumentFile(documentToBeRemoved);
                 }
 
                 _context.Document.Remove(documentToBeRemoved);
@@ -450,6 +458,12 @@ namespace AcutePediatricsOrientation.Controllers
                 Value = dt.Id.ToString()
             });
             return View(documentViewModel);
+        }
+
+        private void DeleteDocumentFile(Documents document)
+        {
+            var filePath = _hostingEnvironment.WebRootPath + document.Path;
+            System.IO.File.Delete(filePath);
         }
     }
 }
