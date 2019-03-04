@@ -244,31 +244,33 @@ namespace AcutePediatricsOrientation.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateDocument(CreateDocumentViewModel document)
         {
-            if(document.DocumentType == (int) ProjectEnum.DocumentType.PDF)
+            if (document.DocumentType == (int)ProjectEnum.DocumentType.PDF)
             {
                 ModelState.Remove("Url");
             }
-            else if(document.DocumentType == (int) ProjectEnum.DocumentType.Video)
+            else if (document.DocumentType == (int)ProjectEnum.DocumentType.Video)
             {
                 ModelState.Remove("File");
             }
 
             if (ModelState.IsValid)
             {
-                if(document.DocumentType == (int)ProjectEnum.DocumentType.PDF)
+
+                if (document.DocumentType == (int)ProjectEnum.DocumentType.PDF)
                 {
                     var fileName = document.File.FileName;
                     var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
                     var filePath = Path.Combine(trainingFilesFolderPath, fileName);
-                    if (!_context.Document.Any(d => d.FilePath == filePath))
+                    if (!_context.Document.Any(d => d.Path == filePath))
                     {
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {
                             document.File.CopyTo(fileStream);
-                        } 
-                        _context.Document.Add(new Documents {
+                        }
+                        _context.Document.Add(new Documents
+                        {
                             DocumentTypeId = document.DocumentType,
-                            FilePath = Path.Combine("/trainingfiles/", fileName),
+                            Path = Path.Combine("/trainingfiles/", fileName),
                             Name = document.Name,
                             TopicId = document.TopicId
                         });
@@ -286,7 +288,7 @@ namespace AcutePediatricsOrientation.Controllers
                     _context.Document.Add(new Documents
                     {
                         DocumentTypeId = document.DocumentType,
-                        FilePath = document.Url,
+                        Path = document.Url,
                         Name = document.Name,
                         TopicId = document.TopicId
                     });
@@ -331,12 +333,118 @@ namespace AcutePediatricsOrientation.Controllers
             }
             else
             {
-                var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.FilePath;
+                var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.Path;
                 System.IO.File.Delete(filePath);
                 _context.Document.Remove(documentToBeRemoved);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+        }
+
+        [HttpGet]
+        public IActionResult EditDocument(int id)
+        {
+            var document = _context.Document.SingleOrDefault(t => t.Id == id);
+            if (document == null)
+            {
+                // TODO 
+                return View("Error");
+            }
+            else
+            {
+                var documentViewModel = new EditDocumentViewModel()
+                {
+                    DocumentType = document.DocumentTypeId,
+                    Id = document.Id,
+                    Name = document.Name,
+                    DocumentTypes = _context.DocumentType.Select(dt => new SelectListItem
+                    {
+                        Text = dt.Name,
+                        Value = dt.Id.ToString()
+                    }),
+                    TopicId = document.TopicId,
+                    FilePath = document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF ? document.Path : null,
+                    Url = document.DocumentTypeId == (int)ProjectEnum.DocumentType.Video ? document.Path : null
+                };
+                return View(documentViewModel);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDocument(EditDocumentViewModel documentViewModel)
+        {
+            if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.PDF)
+            {
+                ModelState.Remove("Url");
+            }
+            else if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.Video)
+            {
+                ModelState.Remove("File");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var document = _context.Document.SingleOrDefault(d => d.Id == documentViewModel.Id);
+
+                if(document == null)
+                {
+                    return View("Error");
+                }
+
+                // Update some values of the document
+                document.Name = documentViewModel.Name;
+                document.TopicId = documentViewModel.TopicId;
+                document.DocumentTypeId = documentViewModel.DocumentType;
+
+                if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.PDF && documentViewModel.File != null)
+                {
+                    // Deleting the old file of the document
+                    var oldFilePath = _hostingEnvironment.WebRootPath + document.Path;
+                    System.IO.File.Delete(oldFilePath);
+
+                    var fileName = documentViewModel.File.FileName;
+                    var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
+                    var filePath = Path.Combine(trainingFilesFolderPath, fileName);
+                    if (!_context.Document.Any(d => d.Path == filePath))
+                    {
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            documentViewModel.File.CopyTo(fileStream);
+                        }
+
+                        // Update the document path as a pdf document type
+                        document.Path = Path.Combine("/trainingfiles/", fileName);
+                        
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("File", "That file is already used in the package");
+                    }
+                }
+                else if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.Video)
+                {
+                    // Update the document path as a video document type
+                    document.Path = documentViewModel.Url;
+
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+
+            documentViewModel.DocumentTypes = _context.DocumentType.Select(dt => new SelectListItem
+            {
+                Text = dt.Name,
+                Value = dt.Id.ToString()
+            });
+            return View(documentViewModel);
         }
     }
 }
