@@ -333,8 +333,13 @@ namespace AcutePediatricsOrientation.Controllers
             }
             else
             {
-                var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.Path;
-                System.IO.File.Delete(filePath);
+                if(documentToBeRemoved.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                {
+                    // Deleting the file if the document type is pdf
+                    var filePath = _hostingEnvironment.WebRootPath + documentToBeRemoved.Path;
+                    System.IO.File.Delete(filePath);
+                }
+
                 _context.Document.Remove(documentToBeRemoved);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
