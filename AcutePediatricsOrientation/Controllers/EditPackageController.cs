@@ -88,12 +88,24 @@ namespace AcutePediatricsOrientation.Controllers
             {
                 var topicIds = _context.Topic.Where(t => t.CategoryId == category.Id).Select(t => t.Id);
 
-                foreach(var topicId in topicIds)
+                foreach(var document in _context.Document.Where(d => topicIds.Contains(d.TopicId)))
+                {
+                    if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                    {
+                        // Deleting the file if the document type is pdf
+                        DeleteDocumentFile(document);
+                    }
+                }
+
+                // Deleting the documents from this category
+                foreach (var topicId in topicIds)
                 {
                     _context.Document.RemoveRange(_context.Document.Where(d => d.TopicId == topicId));
                 }
 
+                // Deleting the topics from this category
                 _context.Topic.RemoveRange(_context.Topic.Where(t => t.CategoryId == category.Id));
+
                 _context.Category.RemoveRange(_context.Category.Where(t => t.Id == category.Id));
 
                 _context.SaveChanges();
@@ -222,8 +234,11 @@ namespace AcutePediatricsOrientation.Controllers
             {
                 foreach (var document in topicToBeRemoved.Documents)
                 {
-                    // Delete files for pdf documents
-                    DeleteDocumentFile(document);
+                    if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                    {
+                        // Deleting the file if the document type is pdf
+                        DeleteDocumentFile(document);
+                    }
                 }
                 
                 // Deleting the documents from this topic
