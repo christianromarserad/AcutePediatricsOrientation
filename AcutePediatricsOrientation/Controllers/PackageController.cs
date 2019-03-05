@@ -23,6 +23,7 @@ namespace AcutePediatricsOrientation.Controllers
             if(document != null)
             {
                 var documentViewModel = new DocumentsViewModel {
+                    DocumentTypeId = document.DocumentTypeId,
                     Name = document.Name,
                     Path = document.Path
                 };

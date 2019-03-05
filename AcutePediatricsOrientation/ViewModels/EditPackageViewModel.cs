@@ -34,6 +34,7 @@ namespace AcutePediatricsOrientation.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int DocumentTypeId { get; set; }
         public string Path { get; set; }
     }
 
