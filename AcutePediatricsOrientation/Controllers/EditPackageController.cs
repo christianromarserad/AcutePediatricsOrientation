@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using AcutePediatricsOrientation.Enums;
 using AcutePediatricsOrientation.Models;
 using AcutePediatricsOrientation.ViewModels;
@@ -309,10 +310,13 @@ namespace AcutePediatricsOrientation.Controllers
                 }
                 else if (document.DocumentType == (int)ProjectEnum.DocumentType.Video)
                 {
+                    // COnvert the youtube url into an embed url
+                    var youtubeEmbedUrl = ConvertToYoutubeEmbed(document.Url);
+
                     _context.Document.Add(new Documents
                     {
                         DocumentTypeId = document.DocumentType,
-                        Path = document.Url,
+                        Path = youtubeEmbedUrl,
                         Name = document.Name,
                         TopicId = document.TopicId
                     });
@@ -420,6 +424,12 @@ namespace AcutePediatricsOrientation.Controllers
                     return View("Error");
                 }
 
+                if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                {
+                    // Deleting the old file of the document if it was a pdf file before
+                    DeleteDocumentFile(document);
+                }
+
                 // Update some values of the document
                 document.Name = documentViewModel.Name;
                 document.TopicId = documentViewModel.TopicId;
@@ -427,10 +437,6 @@ namespace AcutePediatricsOrientation.Controllers
 
                 if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.PDF && documentViewModel.File != null)
                 {
-                    // Deleting the old file of the document
-                    var oldFilePath = _hostingEnvironment.WebRootPath + document.Path;
-                    System.IO.File.Delete(oldFilePath);
-
                     var fileName = documentViewModel.File.FileName;
                     var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
                     var filePath = Path.Combine(trainingFilesFolderPath, fileName);
@@ -455,7 +461,7 @@ namespace AcutePediatricsOrientation.Controllers
                 else if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.Video)
                 {
                     // Update the document path as a video document type
-                    document.Path = documentViewModel.Url;
+                    document.Path = ConvertToYoutubeEmbed(documentViewModel.Url);
 
                     _context.SaveChanges();
                     return RedirectToAction("Index");
@@ -475,10 +481,19 @@ namespace AcutePediatricsOrientation.Controllers
             return View(documentViewModel);
         }
 
+
         private void DeleteDocumentFile(Documents document)
         {
             var filePath = _hostingEnvironment.WebRootPath + document.Path;
             System.IO.File.Delete(filePath);
+        }
+
+        private string ConvertToYoutubeEmbed(string youtubeUrl)
+        {
+            var uri = new Uri(youtubeUrl);
+            var youtubeUrlParameter = HttpUtility.ParseQueryString(uri.Query).Get("v");
+            var youtubeEmbedUrl = "https://www.youtube.com/embed/" + youtubeUrlParameter;
+            return youtubeEmbedUrl;
         }
     }
 }
