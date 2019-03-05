@@ -311,18 +311,26 @@ namespace AcutePediatricsOrientation.Controllers
                 else if (document.DocumentType == (int)ProjectEnum.DocumentType.Video)
                 {
                     // COnvert the youtube url into an embed url
-                    var youtubeEmbedUrl = ConvertToYoutubeEmbed(document.Url);
-
-                    _context.Document.Add(new Documents
+                    try
                     {
-                        DocumentTypeId = document.DocumentType,
-                        Path = youtubeEmbedUrl,
-                        Name = document.Name,
-                        TopicId = document.TopicId
-                    });
+                        var youtubeEmbedUrl = ConvertToYoutubeEmbed(document.Url);
 
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
+                        _context.Document.Add(new Documents
+                        {
+                            DocumentTypeId = document.DocumentType,
+                            Path = youtubeEmbedUrl,
+                            Name = document.Name,
+                            TopicId = document.TopicId
+                        });
+
+                        _context.SaveChanges();
+
+                        return RedirectToAction("Index");
+                    }
+                    catch(ArgumentException ex)
+                    {
+                        ModelState.AddModelError("Url", "Invalid YouTube video URL");
+                    }
                 }
             }
 
@@ -460,11 +468,18 @@ namespace AcutePediatricsOrientation.Controllers
                 }
                 else if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.Video)
                 {
-                    // Update the document path as a video document type
-                    document.Path = ConvertToYoutubeEmbed(documentViewModel.Url);
+                    try
+                    {
+                        // Update the document path as a video document type
+                        document.Path = ConvertToYoutubeEmbed(documentViewModel.Url);
 
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    catch(ArgumentException ex)
+                    {
+                        ModelState.AddModelError("Url", "Invalid YouTube video URL");
+                    }
                 }
                 else
                 {
@@ -492,6 +507,10 @@ namespace AcutePediatricsOrientation.Controllers
         {
             var uri = new Uri(youtubeUrl);
             var youtubeUrlParameter = HttpUtility.ParseQueryString(uri.Query).Get("v");
+            if (youtubeUrlParameter == null)
+            {
+                throw new ArgumentException("Invalid youtube url");
+            }
             var youtubeEmbedUrl = "https://www.youtube.com/embed/" + youtubeUrlParameter;
             return youtubeEmbedUrl;
         }
