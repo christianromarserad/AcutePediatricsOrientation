@@ -54,7 +54,7 @@ namespace AcutePediatricsOrientation.Controllers
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = false });
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Package");
                 }
             }
             else

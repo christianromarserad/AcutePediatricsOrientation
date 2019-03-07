@@ -74,7 +74,7 @@ namespace AcutePediatricsOrientation
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Package}/{action=Index}/{id?}");
             });
         }
     }
