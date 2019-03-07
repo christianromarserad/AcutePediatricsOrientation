@@ -41,7 +41,7 @@ namespace AcutePediatricsOrientation.Controllers
                     })
                 })
             });
-            return View(new EditPackageViewModel { Categories = categories.ToList()});
+            return View(new PackageViewModel { Categories = categories.ToList()});
         }
 
         [HttpGet]
