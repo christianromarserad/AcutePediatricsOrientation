@@ -1,0 +1,66 @@
+﻿@model AcutePediatricsOrientation.ViewModels.PackageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var category in Model.Categories)
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">@Html.DisplayFor(modelItem => category.Name)</div>
+        <div class="panel-body">
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th width="40%">
+                            Topic
+                        </th>
+                        <th width="40%">
+                            Documents / Links
+                        </th>
+                        <th width="20%">
+                            Signature
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var topic in category.Topics)
+                    {
+                    <tr>
+                        <td>
+                            <p>
+                                <span style="display: inline-block; width: 400px;">@Html.DisplayFor(modelItem => topic.Name)</span>
+                            </p>
+                        </td>
+
+                        <td>
+                            @foreach (var document in topic.Documents)
+                            {
+                                <p>
+                                    <a asp-controller="Package" asp-action="ViewDocument" asp-route-id="@document.Id" style="display: inline-block; width: 400px;">@document.Name</a>
+                                </p>
+                            }
+                        </td>
+                        <td>
+                            @if (topic.Signature == null)
+                            {
+                                <a asp-action="SignTopic" class="btn btn-primary btn-sm">Sign</a>
+                            }
+                            else
+                            {
+                                <p>@topic.Signature.Username</p>
+                                <p>@topic.Signature.Date</p>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+

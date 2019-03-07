@@ -28,7 +28,7 @@ namespace AcutePediatricsOrientation.ViewModels
         [Required]
         public string Name { get; set; }
         public IEnumerable<DocumentsViewModel> Documents { get; set; }
-        public Signature Signature { get; set; }
+        public SignatureViewModel Signature { get; set; }
     }
 
     public class DocumentsViewModel
@@ -41,7 +41,7 @@ namespace AcutePediatricsOrientation.ViewModels
 
     public class SignatureViewModel
     {
-        public int Username { get; set; }
+        public string Username { get; set; }
         public DateTime Date { get; set; }
     }
 

@@ -15,6 +15,7 @@ namespace AcutePediatricsOrientation.Models
         [Required]
         public int CategoryId { get; set; }
         public virtual ICollection<Documents> Documents { get; set; }
+        public virtual ICollection<Signature> Signatures { get; set; }
 
         public virtual Category Category { get; set; }
     }
