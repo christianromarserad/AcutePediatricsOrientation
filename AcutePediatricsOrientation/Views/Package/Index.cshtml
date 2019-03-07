@@ -4,6 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
+<script>
+    $(document).ready(function () {
+        $(".sign-topic").click(function () {
+            //console.log($(this).data("id"));
+            var signbutton = $(this);
+            $.ajax({
+                url: @Html.Raw(Json.Serialize(Url.Action("SignTopic", "Package"))),
+                type: "GET",
+                data: { id: signbutton.data("id") },
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        signbutton.parent().append("<p>" + data.username + "</p>");
+                        signbutton.parent().append("<p>" + data.date + "</p>");
+                        signbutton.remove();
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 <h2>Index</h2>
 
 @foreach (var category in Model.Categories)
@@ -44,10 +66,10 @@
                                 </p>
                             }
                         </td>
-                        <td>
+                        <td id="signature-column">
                             @if (topic.Signature == null)
                             {
-                                <a asp-action="SignTopic" class="btn btn-primary btn-sm">Sign</a>
+                                <a data-id="@topic.Id" class="btn btn-primary btn-sm sign-topic">Sign</a>
                             }
                             else
                             {

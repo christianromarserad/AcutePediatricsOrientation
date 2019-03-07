@@ -27,6 +27,7 @@ namespace AcutePediatricsOrientation.Controllers
                 Name = c.Name,
                 Topics = c.Topics.Select(t => new TopicViewModel
                 {
+                    Id = t.Id,
                     Name = t.Name,
                     Signature = t.Signatures.Where(s => s.User.Username == currentUsername)
                                             .Select(s => new SignatureViewModel() {
@@ -59,6 +60,31 @@ namespace AcutePediatricsOrientation.Controllers
             else
             {
                 return View("Error");
+            }
+        }
+
+        public IActionResult SignTopic(int id)
+        {
+            var currentUsername = User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
+            var topic = _context.Topic.SingleOrDefault(d => d.Id == id);
+            var user = _context.Account.SingleOrDefault(a => a.Username == currentUsername);
+
+            if (topic != null && user != null)
+            {
+                var newSignature = new Signature
+                {
+                    Date = DateTime.Now,
+                    TopicId = topic.Id,
+                    UserId = user.Id
+                };
+                _context.Signature.Add(newSignature);
+                _context.SaveChanges();
+
+                return Json(new { Success = true, Username = user.Username, Date = newSignature.Date});
+            }
+            else
+            {
+                return Json(new { Success = false });
             }
         }
     }
