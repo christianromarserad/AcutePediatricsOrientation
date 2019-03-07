@@ -9,10 +9,12 @@ namespace AcutePediatricsOrientation.Models
 {
     public class Signature
     {
-        [Key, Column(Order = 0)]
+        [Key]
         public int UserId { get; set; }
-        [Key, Column(Order = 1)]
+        [Key]
         public int TopicId { get; set; }
         public DateTime Date { get; set; }
+        public virtual Account User { get; set; }
+        public virtual Topic Topic { get; set; }
     }
 }
