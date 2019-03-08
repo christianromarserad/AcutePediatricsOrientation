@@ -34,7 +34,7 @@ namespace AcutePediatricsOrientation.Controllers
                     Signature = t.Signatures.Where(s => s.User.Username == currentUsername)
                                             .Select(s => new SignatureViewModel() {
                                                 Username = s.User.Username,
-                                                Date = s.Date
+                                                Date = s.Date.ToString("MMMM dd, yyyy  h:mm tt")
                                             }).SingleOrDefault(),
                     Documents = t.Documents.Select(d => new DocumentsViewModel
                     {
@@ -82,7 +82,7 @@ namespace AcutePediatricsOrientation.Controllers
                 _context.Signature.Add(newSignature);
                 _context.SaveChanges();
 
-                return Json(new { Success = true, Username = user.Username, Date = newSignature.Date});
+                return Json(new { Success = true, Username = user.Username, Date = newSignature.Date.ToString("MMMM dd, yyyy  h:mm tt") });
             }
             else
             {
