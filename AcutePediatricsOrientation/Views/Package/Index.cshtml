@@ -42,8 +42,8 @@
     });
 </script>
 
-<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-    <a id="print-button" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> Print</a>
+<div style="margin-top: 20px; margin-bottom: 20px;">
+    <a id="print-button" class="btn btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
 </div>
 
 @foreach (var category in Model.Categories)
@@ -87,7 +87,7 @@
                             <td id="signature-column">
                                 @if (topic.Signature == null)
                                 {
-                                    <a data-id="@topic.Id" class="btn btn-primary btn-sm sign-topic">Sign</a>
+                                    <a data-id="@topic.Id" class="btn btn-primary btn-sm sign-topic"><i class="glyphicon glyphicon-pencil"></i> Sign</a>
                                 }
                                 else
                                 {
