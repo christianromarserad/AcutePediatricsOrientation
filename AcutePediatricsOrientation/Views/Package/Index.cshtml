@@ -10,7 +10,7 @@
     }
 
     @@media print{
-        .sign-topic{
+        .btn{
             display: none;
         }
     }
@@ -35,10 +35,16 @@
                 }
             });
         });
+
+        $("#print-button").click(function () {
+            window.print();
+        });
     });
 </script>
 
-<h2>Index</h2>
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <a id="print-button" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> Print</a>
+</div>
 
 @foreach (var category in Model.Categories)
 {
