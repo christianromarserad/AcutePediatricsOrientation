@@ -12,12 +12,16 @@
 @foreach (var category in Model.Categories)
 {
 <div class="panel panel-primary">
-    <div class="panel-heading">@Html.DisplayFor(modelItem => category.Name)</div>
+    <div class="panel-heading">
+        @Html.DisplayFor(modelItem => category.Name)
+        <span class="pull-right">
+            <a class="btn btn-default btn-xs" asp-action="EditCategory" asp-route-id="@category.Id"><i class="glyphicon glyphicon-pencil"></i></a>
+            <a class="btn btn-default btn-xs" asp-action="DeleteCategory" asp-route-id="@category.Id"><i class="glyphicon glyphicon-trash"></i></a>
+        </span>
+    </div>
     <div class="panel-body">
         <p style="margin-bottom: 20px">
-            <a asp-action="CreateTopic" asp-route-id="@category.Id">Create New Topic</a> |
-            <a asp-action="DeleteCategory" asp-route-id="@category.Id">Delete Category</a> |
-            <a asp-action="EditCategory" asp-route-id="@category.Id">Edit Category</a>
+            <a class="btn btn-default btn-xs" asp-action="CreateTopic" asp-route-id="@category.Id"><i class="glyphicon glyphicon-plus-sign"></i> Create New Topic</a> 
         </p>
 
         <table class="table">
@@ -38,21 +42,19 @@
                         <td>
                             <p>
                                 <span style="display: inline-block; width: 400px;">@Html.DisplayFor(modelItem => topic.Name)</span>
-                                <a asp-action="EditTopic" asp-route-id="@topic.Id">Edit</a>
-                                <span>|</span>
-                                <a asp-action="DeleteTopic" asp-route-id="@topic.Id"> Delete </a>
+                                <a class="btn btn-default btn-xs" asp-action="EditTopic" asp-route-id="@topic.Id"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a class="btn btn-default btn-xs" asp-action="DeleteTopic" asp-route-id="@topic.Id"><i class="glyphicon glyphicon-trash"></i></a>
                             </p>
                         </td>
 
                         <td>
-                            <p style="text-align:center"><a asp-action="CreateDocument" asp-route-id="@topic.Id">Add Document</a></p>
+                            <p style="text-align:center"><a class="btn btn-default btn-xs" asp-action="CreateDocument" asp-route-id="@topic.Id"><i class="glyphicon glyphicon-plus-sign"></i> Add Document</a></p>
                             @foreach (var document in topic.Documents)
                             {
                                 <p>
                                     <a asp-controller="Package" asp-action="ViewDocument" asp-route-id="@document.Id" style="display: inline-block; width: 400px;">@document.Name</a>
-                                    <a asp-action="EditDocument" asp-route-id="@document.Id">Edit</a>
-                                    <span>|</span>
-                                    <a asp-action="DeleteDocument" asp-route-id="@document.Id"> Delete </a>
+                                    <a class="btn btn-default btn-xs" asp-action="EditDocument" asp-route-id="@document.Id"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a class="btn btn-default btn-xs" asp-action="DeleteDocument" asp-route-id="@document.Id"><i class="glyphicon glyphicon-trash"></i></a>
                                 </p>
                             }
                         </td>
