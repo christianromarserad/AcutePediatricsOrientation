@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/AcutePediatricsOrientation/wwwroot/trainingfiles/Chapter01_Exercises.pdf
+/AcutePediatricsOrientation/wwwroot/trainingfiles/Chapter04_Exercises.pdf

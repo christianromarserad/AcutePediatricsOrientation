@@ -434,19 +434,17 @@ namespace AcutePediatricsOrientation.Controllers
                     return View("Error");
                 }
 
-                if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
-                {
-                    // Deleting the old file of the document if it was a pdf file before
-                    DeleteDocumentFile(document);
-                }
-
                 // Update some values of the document
                 document.Name = documentViewModel.Name;
                 document.TopicId = documentViewModel.TopicId;
-                document.DocumentTypeId = documentViewModel.DocumentType;
 
                 if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.PDF && documentViewModel.File != null)
                 {
+                    if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                    {
+                        // Deleting the old file of the document if it was a pdf file before
+                        DeleteDocumentFile(document);
+                    }
                     var fileName = documentViewModel.File.FileName;
                     var trainingFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "trainingfiles");
                     var filePath = Path.Combine(trainingFilesFolderPath, fileName);
@@ -459,7 +457,8 @@ namespace AcutePediatricsOrientation.Controllers
 
                         // Update the document path as a pdf document type
                         document.Path = Path.Combine("/trainingfiles/", fileName);
-                        
+                        document.DocumentTypeId = documentViewModel.DocumentType;
+
                         _context.SaveChanges();
                         return RedirectToAction("Index");
                     }
@@ -470,10 +469,17 @@ namespace AcutePediatricsOrientation.Controllers
                 }
                 else if (documentViewModel.DocumentType == (int)ProjectEnum.DocumentType.Video)
                 {
+                    if (document.DocumentTypeId == (int)ProjectEnum.DocumentType.PDF)
+                    {
+                        // Deleting the old file of the document if it was a pdf file before
+                        DeleteDocumentFile(document);
+                    }
+
                     try
                     {
                         // Update the document path as a video document type
                         document.Path = ConvertToYoutubeEmbed(documentViewModel.Url);
+                        document.DocumentTypeId = documentViewModel.DocumentType;
 
                         _context.SaveChanges();
                         return RedirectToAction("Index");
@@ -485,6 +491,7 @@ namespace AcutePediatricsOrientation.Controllers
                 }
                 else
                 {
+                    document.DocumentTypeId = documentViewModel.DocumentType;
                     _context.SaveChanges();
                     return RedirectToAction("Index");
                 }
