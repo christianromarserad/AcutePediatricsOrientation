@@ -241,6 +241,8 @@ namespace AcutePediatricsOrientation.Controllers
                         DeleteDocumentFile(document);
                     }
                 }
+
+                _context.Signature.RemoveRange(_context.Signature.Where(s => s.TopicId == topic.Id));
                 
                 // Deleting the documents from this topic
                 _context.Document.RemoveRange(topicToBeRemoved.Documents);
