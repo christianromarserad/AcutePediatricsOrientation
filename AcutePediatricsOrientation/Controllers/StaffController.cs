@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AcutePediatricsOrientation.Models;
 using AcutePediatricsOrientation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcutePediatricsOrientation.Controllers
