@@ -29,4 +29,12 @@ GO
 -- An initial admin account used only for development
 INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
 VALUES('Admin', 'Admin', 1)
+INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
+VALUES('Smit', 'Smit', 1)
+INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
+VALUES('Riket', 'Riket', 1)
+INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
+VALUES('Christian', 'Christian', 1)
+INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
+VALUES('Romar', 'Romar', 1)
 GO
