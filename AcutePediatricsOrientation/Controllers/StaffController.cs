@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcutePediatricsOrientation.Controllers
 {
+    [Authorize]
     public class StaffController : Controller
     {
         private readonly AcutePediatricsContext _context;

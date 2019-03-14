@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using AcutePediatricsOrientation.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AcutePediatricsOrientation.Controllers
 {
@@ -69,6 +70,7 @@ namespace AcutePediatricsOrientation.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Register()
         {
