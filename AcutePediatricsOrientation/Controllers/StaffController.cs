@@ -36,5 +36,30 @@ namespace AcutePediatricsOrientation.Controllers
 
             return View(staffListViewModel);
         }
+
+        public IActionResult StaffPackage(int id)
+        {
+            var categories = _context.Category.Select(c => new CategoryViewModel
+            {
+                Name = c.Name,
+                Topics = c.Topics.Select(t => new TopicViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Signature = t.Signatures.Where(s => s.User.Id == id)
+                                            .Select(s => new SignatureViewModel()
+                                            {
+                                                Username = s.User.Username,
+                                                Date = s.Date.ToString("MMMM dd, yyyy  h:mm tt")
+                                            }).SingleOrDefault(),
+                    Documents = t.Documents.Select(d => new DocumentsViewModel
+                    {
+                        Id = d.Id,
+                        Name = d.Name
+                    })
+                })
+            });
+            return View(new PackageViewModel { Categories = categories.ToList() });
+        }
     }
 }
