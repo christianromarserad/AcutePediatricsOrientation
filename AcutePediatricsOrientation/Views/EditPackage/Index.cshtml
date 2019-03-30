@@ -3,11 +3,8 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h2>Index</h2>
-
-<p>
-    <a asp-action="CreateCategory">Create New</a>
+<p style="margin-top: 20px; margin-bottom: 20px;">
+    <a class="btn btn-default btn-md" asp-action="CreateCategory"><i class="glyphicon glyphicon-plus-sign"></i> Create Category</a>
 </p>
 @foreach (var category in Model.Categories)
 {

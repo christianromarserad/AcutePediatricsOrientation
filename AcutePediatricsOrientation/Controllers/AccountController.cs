@@ -72,8 +72,8 @@ namespace AcutePediatricsOrientation.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Register()
-        {
+        public IActionResult Register(Account account)
+        { 
             return View();
         }
     }
