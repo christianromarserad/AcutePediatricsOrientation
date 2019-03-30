@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using AcutePediatricsOrientation.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace AcutePediatricsOrientation
 {
@@ -35,6 +36,11 @@ namespace AcutePediatricsOrientation
             }).AddCookie(options => 
             {
                 options.LoginPath = "/Account/Login";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Educator", policy => policy.RequireClaim(ClaimTypes.Role, "Educator"));
             });
 
             services.Configure<CookiePolicyOptions>(options =>

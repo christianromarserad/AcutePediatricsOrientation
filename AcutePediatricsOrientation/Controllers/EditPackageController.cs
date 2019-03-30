@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AcutePediatricsOrientation.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Educator")]
     public class EditPackageController : Controller
     {
         private readonly AcutePediatricsContext _context;

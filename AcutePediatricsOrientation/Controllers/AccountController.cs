@@ -48,7 +48,7 @@ namespace AcutePediatricsOrientation.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Name, account.Username));
                     if(user.RoleId == (int) ProjectEnum.Role.Educator)
                     {
-                        identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, "Educator"));
                     }
 
                     // Authenticate using the identity
