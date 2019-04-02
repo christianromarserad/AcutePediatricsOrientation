@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AcutePediatricsOrientation</title>
 
+    <style>
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -41,46 +49,52 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    @if (ViewContext.RouteData.Values["action"].ToString() != "Login")
+    {
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="nav navbar-nav">
+                            @if (((System.Security.Claims.ClaimsIdentity)(User.Identity)).HasClaim(ClaimTypes.Role, "Educator"))
+                            {
+                                <li><a asp-area="" asp-controller="EditPackage" asp-action="Index">Edit Package</a></li>
+                                <li><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></li>
+                                <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+                            }
+                            <li><a asp-area="" asp-controller="Package" asp-action="Index">Package</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                        </ul>
+                    }
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav">
-                        @if (((System.Security.Claims.ClaimsIdentity)(User.Identity)).HasClaim(ClaimTypes.Role, "Educator"))
-                        {
-                            <li><a asp-area="" asp-controller="EditPackage" asp-action="Index">Edit Package</a></li>
-                            <li><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-                        }
-                        <li><a asp-area="" asp-controller="Package" asp-action="Index">Package</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                    </ul>
-                }
-            </div>
-        </div>
-    </nav>
+        </nav>
+    }
 
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - AcutePediatricsOrientation</p>
-        </footer>
     </div>
+
+    <footer class="footer">
+        <hr />
+        <div class="container">
+            <p>&copy; 2019 - AcutePediatricsOrientation</p>
+        </div>
+    </footer>
 
     @RenderSection("Scripts", required: false)
 </body>
