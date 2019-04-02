@@ -1,4 +1,4 @@
-﻿@model AcutePediatricsOrientation.Models.Account
+﻿@model AcutePediatricsOrientation.ViewModels.RegisterViewModel
 
 @{
     ViewData["Title"] = "Register";
@@ -6,7 +6,6 @@
 
 <h2>Register</h2>
 
-<h4>Account</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="RoleId" class="control-label"></label>
-                <input asp-for="RoleId" class="form-control" />
+                <select asp-for="RoleId" asp-items="Model.Roles" id="typeInput" class="form-control"></select>
                 <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,9 +31,5 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

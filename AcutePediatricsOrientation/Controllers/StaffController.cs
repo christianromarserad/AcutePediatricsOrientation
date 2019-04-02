@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcutePediatricsOrientation.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Educator")]
     public class StaffController : Controller
     {
         private readonly AcutePediatricsContext _context;

@@ -27,5 +27,6 @@ namespace AcutePediatricsOrientation.Models
         public DbSet<AcutePediatricsOrientation.Models.Documents> Document { get; set; }
         public DbSet<AcutePediatricsOrientation.Models.DocumentType> DocumentType { get; set; }
         public DbSet<AcutePediatricsOrientation.Models.Signature> Signature { get; set; }
+        public DbSet<AcutePediatricsOrientation.Models.Role> Role { get; set; }
     }
 }

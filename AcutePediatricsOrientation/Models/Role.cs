@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace AcutePediatricsOrientation.Models
 {
-    public class Account
+    public class Role
     {
         [Key]
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        [Display(Name = "Role")]
-        public int RoleId { get; set; }
+        public string Name { get; set; }
     }
 }

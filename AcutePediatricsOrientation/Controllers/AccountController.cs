@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using AcutePediatricsOrientation.Enums;
 using Microsoft.AspNetCore.Authorization;
+using AcutePediatricsOrientation.ViewModels;
 
 namespace AcutePediatricsOrientation.Controllers
 {
@@ -70,11 +71,15 @@ namespace AcutePediatricsOrientation.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
+        [Authorize(Policy = "Educator")]
         [HttpGet]
         public IActionResult Register(Account account)
-        { 
-            return View();
+        {
+            var registerViewModel = new RegisterViewModel
+            {
+                Roles = _context.Role.Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name })
+            };
+            return View(registerViewModel);
         }
     }
 }
