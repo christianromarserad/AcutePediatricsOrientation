@@ -29,7 +29,7 @@ namespace AcutePediatricsOrientation.Controllers
                 new StaffViewModel
                 {
                     UserId = a.Id,
-                    UserName = a.Username,
+                    Name = a.FirstName + " " + a.LastName,
                     Progress = (((double)stafSignaturefList.Where(sl => sl.UserId == a.Id).Count() / totalTopics) * 100.0)
                 }
             ).ToList();
@@ -49,7 +49,7 @@ namespace AcutePediatricsOrientation.Controllers
                     Signature = t.Signatures.Where(s => s.User.Id == id)
                                             .Select(s => new SignatureViewModel()
                                             {
-                                                Username = s.User.Username,
+                                                Name = s.User.FirstName + " " + s.User.LastName,
                                                 Date = s.Date.ToString("MMMM dd, yyyy  h:mm tt")
                                             }).SingleOrDefault(),
                     Documents = t.Documents.Select(d => new DocumentsViewModel

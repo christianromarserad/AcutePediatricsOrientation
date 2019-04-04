@@ -27,14 +27,12 @@ VALUES(2, 'Video')
 GO
 
 -- An initial admin account used only for development
-INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
-VALUES('Admin', 'Admin', 1)
-INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
-VALUES('Smit', 'Smit', 2)
-INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
-VALUES('Riket', 'Riket', 2)
-INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
-VALUES('Christian', 'Christian', 2)
-INSERT INTO [dbo].[Account]([Username], [Password], [RoleId])
-VALUES('Romar', 'Romar', 2)
+INSERT INTO [dbo].[Account]([Email], [FirstName], [LastName], [Password], [RoleId])
+VALUES('admin@email.com', 'Admin', 'Admin', 'Admin', 1)
+INSERT INTO [dbo].[Account]([Email], [FirstName], [LastName], [Password], [RoleId])
+VALUES('smit@email.com', 'Smit', 'Patel', 'Smit', 2)
+INSERT INTO [dbo].[Account]([Email], [FirstName], [LastName], [Password], [RoleId])
+VALUES('riket@email.com', 'Riket', 'Patel', 'Riket', 2)
+INSERT INTO [dbo].[Account]([Email], [FirstName], [LastName], [Password], [RoleId])
+VALUES('christian@email.com', 'Christian', 'Serad', 'Christian', 2)
 GO

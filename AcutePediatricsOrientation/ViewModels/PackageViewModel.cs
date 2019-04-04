@@ -41,7 +41,7 @@ namespace AcutePediatricsOrientation.ViewModels
 
     public class SignatureViewModel
     {
-        public string Username { get; set; }
+        public string Name { get; set; }
         public string Date { get; set; }
     }
 

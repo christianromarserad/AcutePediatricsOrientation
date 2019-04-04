@@ -22,7 +22,7 @@ namespace AcutePediatricsOrientation.Controllers
 
         public IActionResult Index()
         {
-            var currentUsername = User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
 
             var categories = _context.Category.Select(c => new CategoryViewModel
             {
@@ -31,9 +31,9 @@ namespace AcutePediatricsOrientation.Controllers
                 {
                     Id = t.Id,
                     Name = t.Name,
-                    Signature = t.Signatures.Where(s => s.User.Username == currentUsername)
+                    Signature = t.Signatures.Where(s => s.User.Email == currentUser)
                                             .Select(s => new SignatureViewModel() {
-                                                Username = s.User.Username,
+                                                Name = s.User.FirstName + " " + s.User.LastName,
                                                 Date = s.Date.ToString("MMMM dd, yyyy  h:mm tt")
                                             }).SingleOrDefault(),
                     Documents = t.Documents.Select(d => new DocumentsViewModel
@@ -67,9 +67,9 @@ namespace AcutePediatricsOrientation.Controllers
 
         public IActionResult SignTopic(int id)
         {
-            var currentUsername = User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
             var topic = _context.Topic.SingleOrDefault(d => d.Id == id);
-            var user = _context.Account.SingleOrDefault(a => a.Username == currentUsername);
+            var user = _context.Account.SingleOrDefault(a => a.Email == currentUser);
 
             if (topic != null && user != null)
             {
@@ -82,7 +82,7 @@ namespace AcutePediatricsOrientation.Controllers
                 _context.Signature.Add(newSignature);
                 _context.SaveChanges();
 
-                return Json(new { Success = true, Username = user.Username, Date = newSignature.Date.ToString("MMMM dd, yyyy  h:mm tt") });
+                return Json(new { Success = true, Name = user.FirstName + " " + user.LastName, Date = newSignature.Date.ToString("MMMM dd, yyyy  h:mm tt") });
             }
             else
             {

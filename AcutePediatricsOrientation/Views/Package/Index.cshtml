@@ -28,7 +28,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success) {
-                        signbutton.parent().append("<p>" + data.username + "</p>");
+                        signbutton.parent().append("<p>" + data.name + "</p>");
                         signbutton.parent().append("<p>" + data.date + "</p>");
                         signbutton.remove();
                     }
@@ -91,7 +91,7 @@
                                 }
                                 else
                                 {
-                                    <p>@topic.Signature.Username</p>
+                                    <p>@topic.Signature.Name</p>
                                     <p>@topic.Signature.Date</p>
                                 }
                             </td>
