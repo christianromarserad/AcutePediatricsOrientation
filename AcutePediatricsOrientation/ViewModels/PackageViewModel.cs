@@ -12,6 +12,7 @@ namespace AcutePediatricsOrientation.ViewModels
     public class PackageViewModel
     {
         public List<CategoryViewModel> Categories { get; set; }
+        public string StaffName { get; set; }
     }
 
     public class CategoryViewModel

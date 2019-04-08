@@ -24,8 +24,11 @@
     });
 </script>
 
-<div style="margin-top: 20px; margin-bottom: 20px;">
-    <a id="print-button" class="btn btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
+<div class="page-header" style="margin-top: 50px; margin-bottom: 40px;">
+    <h3 id="staff-name">
+        @Model.StaffName
+        <a id="print-button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-print"></i> Print</a>
+    </h3>
 </div>
 
 @foreach (var category in Model.Categories)

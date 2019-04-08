@@ -59,7 +59,10 @@ namespace AcutePediatricsOrientation.Controllers
                     })
                 })
             });
-            return View(new PackageViewModel { Categories = categories.ToList() });
+
+            var staffAccount = _context.Account.Single(a => a.Id == id);
+
+            return View(new PackageViewModel { Categories = categories.ToList(), StaffName = staffAccount.FirstName + " " + staffAccount.LastName });
         }
     }
 }
