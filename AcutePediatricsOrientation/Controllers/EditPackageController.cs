@@ -102,6 +102,7 @@ namespace AcutePediatricsOrientation.Controllers
                 foreach (var topicId in topicIds)
                 {
                     _context.Document.RemoveRange(_context.Document.Where(d => d.TopicId == topicId));
+                    _context.Signature.RemoveRange(_context.Signature.Where(s => s.TopicId == topicId));
                 }
 
                 // Deleting the topics from this category
