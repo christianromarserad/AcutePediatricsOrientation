@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
+using AcutePediatricsOrientation.Enums;
 using AcutePediatricsOrientation.Models;
 using AcutePediatricsOrientation.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -58,7 +60,7 @@ namespace AcutePediatricsOrientation.Controllers
                 var documentViewModel = new DocumentsViewModel {
                     DocumentTypeId = document.DocumentTypeId,
                     Name = document.Name,
-                    Path = document.Path
+                    Path = document.DocumentTypeId == (int)ProjectEnum.DocumentType.Video ? ConvertToYoutubeEmbed(document.Path) : document.Path
                 };
                 return View(documentViewModel);
             }
@@ -91,6 +93,18 @@ namespace AcutePediatricsOrientation.Controllers
             {
                 return Json(new { Success = false });
             }
+        }
+
+        private string ConvertToYoutubeEmbed(string youtubeUrl)
+        {
+            var uri = new Uri(youtubeUrl);
+            var youtubeUrlParameter = HttpUtility.ParseQueryString(uri.Query).Get("v");
+            if (youtubeUrlParameter == null)
+            {
+                throw new ArgumentException("Invalid youtube url");
+            }
+            var youtubeEmbedUrl = "https://www.youtube.com/embed/" + youtubeUrlParameter;
+            return youtubeEmbedUrl;
         }
     }
 }

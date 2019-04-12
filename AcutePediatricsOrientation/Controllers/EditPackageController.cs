@@ -316,12 +316,12 @@ namespace AcutePediatricsOrientation.Controllers
                     // COnvert the youtube url into an embed url
                     try
                     {
-                        var youtubeEmbedUrl = ConvertToYoutubeEmbed(document.Url);
-
+                        ConvertToYoutubeEmbed(document.Url);
+     
                         _context.Document.Add(new Documents
                         {
                             DocumentTypeId = document.DocumentType,
-                            Path = youtubeEmbedUrl,
+                            Path = document.Url,
                             Name = document.Name,
                             TopicId = document.TopicId
                         });
@@ -479,7 +479,8 @@ namespace AcutePediatricsOrientation.Controllers
                     try
                     {
                         // Update the document path as a video document type
-                        document.Path = ConvertToYoutubeEmbed(documentViewModel.Url);
+                        ConvertToYoutubeEmbed(documentViewModel.Url);
+                        document.Path = documentViewModel.Url;
                         document.DocumentTypeId = documentViewModel.DocumentType;
 
                         _context.SaveChanges();
