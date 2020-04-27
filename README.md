@@ -26,7 +26,7 @@ As a Staff:
 * Print training package
 
 ### Development set up (This project only works for Microsoft SQL Server or Azure SQL Database):
-* Publish the Database project to SQL Express. (This will also insert login credentials above for testing)
+* Publish the Database project to SQL Express. (This will also insert login credentials from above for testing)
 * If you wish to publish the database to a different server, make sure to change the connection string in appsettings.json
 
 
