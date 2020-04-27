@@ -1,5 +1,5 @@
 # Acute Pediatrics Orientation
-A web application to do online orientation or training for employees
+A web application to do online orientation and training for employees
 
 Video Demo: https://www.youtube.com/watch?v=EKetdJxTkq0&feature=youtu.be
 
